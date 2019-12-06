@@ -5,6 +5,7 @@ const config = require('./utils/config');
 const logger = require('./utils/logger');
 const middleware = require('./utils/middleware');
 const securityTool = require('./utils/securityTool');
+const cors = require('cors');
 
 const userRouter = require('./controllers/user');
 const loginRouter = require('./controllers/login');
@@ -12,6 +13,7 @@ const occasionRouter = require('./controllers/occasion');
 const invitationRouter = require('./controllers/invitation');
 
 const app = express();
+app.user(cors);
 
 if(process.env.NODE_ENV === 'production'){
   app.use(express.static('build'));
