@@ -21,23 +21,45 @@
   color: #09d3ac;
 }
 
-.public {
-  background-color: #09d3ac;
-}
-
 .no-style {
   all: none;
   list-style: none;
 }
 
 .occ-type-public {
-  background-color: turquoise;
+  background-color: rgba(51, 235, 216, 0.2);
 }
 
 .occ-type-owned {
-  background-color: seagreen;
+  background-color: rgba(252, 114, 55, 0.5);
 }
 
 .occ-type-invited {
-  background-color: sienna;
+  background-color: rgba(223, 250, 72, 0.3);
+}
+
+.occ-type-participant {
+  background-color: rgba(170, 250, 72, 0.3);
+}
+
+.occ-hide-until-rerender {
+  display: none;
+}
+
+.occ {
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.navbar-item {
+  color: aliceblue;
+}
+
+.jumbo {
+  align-content: center;
+  text-align: center;
+}
+
+.list-group-item {
+  padding: 0;
 }

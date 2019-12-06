@@ -36,4 +36,6 @@ loginRouter.post('/', async(request, response, next) => {
   }
 })
 
+//TODO confirm cached login info from front-end
+
 module.exports = loginRouter;

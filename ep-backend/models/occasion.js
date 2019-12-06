@@ -3,15 +3,17 @@ const mongoose = require('mongoose');
 const occasionSchema = mongoose.Schema({
   title: {
     type: String,
-    require: true
+    require: true,
+    minlength: 3
   },
   subtitle: {
     type: String,
-    require: false
+    require: false,
   },
   description: {
     type: String,
-    require: true
+    require: true,
+    minlength: 3
   },
   isPrivate: {
     type: Boolean,
@@ -37,7 +39,16 @@ const occasionSchema = mongoose.Schema({
       sparse: true,
       default: null,
     }
-  ]
+  ],
+  type: {
+    type: String
+  },
+  date: {
+    type: Date
+  },
+  location: {
+    type: String
+  }
 });
 
 occasionSchema.set('toJSON', {

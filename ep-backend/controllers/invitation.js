@@ -13,9 +13,8 @@ invitationRouter.post('/', async (request, response, next) => {
     if(!request.token){
       response.status(401).json({ error: 'no token found' });
     } else {
-      console.log(occasion.owner, request.token);
       if(occasion.owner.toString() === request.token.id.toString()){
-        if(occasion.invitees.includes(invitee._id)){
+        if(invitee.invites.includes(occasion._id)){
           return response.status(400).json({ error: 'duplicate invite' })
         }
 

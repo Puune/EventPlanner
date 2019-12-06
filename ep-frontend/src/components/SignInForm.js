@@ -1,36 +1,44 @@
-import React, {useState} from 'react';
-import loginService from '../services/login';
+import React, {useState} from 'react'
+
+import signInService from '../services/signIn';
 
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
-const LoginForm = (props) => {
+const SignIn = (props) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');  
 
-  const loginHandler = async (event) => {    
+  const signInHandler = async (event) => {
     event.preventDefault();
-    try{
-      const user = await loginService.login({ username, password });
-      window.localStorage.setItem('loggedUser', JSON.stringify(user));
 
-      props.setUser(user);
-      setPassword('');
+    try{
+      const body = {
+        username,
+        name,
+        password
+      }      
+      await signInService.post(body);
+
       setUsername('');
-    } catch(exception) {
+      setName('');
+      setPassword('');
+    } catch(exception){
       console.log(exception);
     }
-  }  
+  }
+
 
   return(
     <>
-      <Form onSubmit={loginHandler}>
+      <Form onSubmit={signInHandler}>
         <Row>
           <Col>
-            <Form.Group controlId="loginFormUsername">
+            <Form.Group controlId="signInFormUsername">
               <Form.Label>Username</Form.Label>
               <Form.Control 
                 type="text"
@@ -41,12 +49,25 @@ const LoginForm = (props) => {
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group controlId="loginFormPassword">
+            <Form.Group controlId="signInFormPassword">
               <Form.Label>Password</Form.Label>
-              <Form.Control
+              <Form.Control 
                 type="text"
                 value={password}
                 onChange={({target}) => setPassword(target.value)}
+                required
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Group controlId="signInFormName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control 
+                type="text"
+                value={name}
+                onChange={({target}) => setName(target.value)}
                 required
               />
             </Form.Group>
@@ -57,15 +78,16 @@ const LoginForm = (props) => {
             <Form.Group>
               <Button
                 type="submit">
-                Log In</Button>
+                  Sing In
+                </Button>
             </Form.Group>
           </Col>
           <Col>
             <Button 
               onClick={props.toggle}
               variant="secondary"
-              >  
-              Or Sign in</Button>
+              >
+              Or Login</Button>
           </Col>
         </Row>
       </Form>
@@ -73,4 +95,4 @@ const LoginForm = (props) => {
   )
 }
 
-export default LoginForm;
+export default SignIn;

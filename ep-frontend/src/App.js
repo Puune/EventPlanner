@@ -1,65 +1,80 @@
 import React, {useState, useEffect} from 'react';
 import occasionService from './services/occasion';
-import loginService from './services/login';
 
-import LoginForm from './components/LoginForm';
 import OccasionsList from './components/OccasionsList'
-import './App.css';
 import OccasionForm from './components/OccasionForm';
+import Header from './components/Header';
+
+import './App.css';
+import Container from 'react-bootstrap/Container';
 
 
 function App() {
 
   const [pubOccasions, setPubOccasions] = useState([]);
   const [ownOccasions, setOwnOccasions] = useState([]);
-  const [inviteOccasions, setInviteOccasions] = useState([]);
+  const [privateOccasions, setPrivateOccasions] = useState([]);
 
   const occasionHooks = {
     pubOccasions, setPubOccasions,
     ownOccasions, setOwnOccasions,
-    inviteOccasions, setInviteOccasions
+    privateOccasions, setPrivateOccasions
   }
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
 
   useEffect(() => {
-    if(user){            
+    if(user){      
+      occasionService
+      .getPublic(user)
+      .then(occs => setPubOccasions(occs)); 
+      
+      occasionService
+        .getPrivates(user)
+        .then(occs => setPrivateOccasions(occs));
+      
       occasionService
         .getOwned(user)
         .then(occs => setOwnOccasions(occs));
     }
   }, [user]);
 
+
   useEffect(() => {
-    if(user){
-      occasionService
-        .getInvited(user)
-        .then(occs => setInviteOccasions(occs));
+    //TODO confirm old login with back-end
+    /*
+    try{
+      const loggedUserJSON = window.localStorage.getItem('loggedUser');
+      if(loggedUserJSON){
+        const user = loginService.login()
+      }
+    } catch(exception){
+      console.log(exception);
     }
-  }, [user]);
-
-  useEffect(() => {
-    occasionService
-      .getPublic()
-      .then(occs => setPubOccasions(occs));
-  }, []);
-
-  useEffect(() => {
+    */
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
     if(loggedUserJSON){
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
+    } else {
+      setUser(null);
+      occasionService
+      .getPublic(user)
+      .then(occs => setPubOccasions(occs)); 
     }
-  },[])
+  }, [])
 
   return (
-    <div>
-      <LoginForm setUser={setUser}/>
-      <OccasionForm />
-      <OccasionsList 
-        occasionHooks={occasionHooks}
-        user={user}/>
-    </div>
+    <>
+      <Header user={user} setUser={setUser}
+        occasionHooks={occasionHooks} />
+      <Container>
+        <OccasionForm user={user} setOwnOccasions={setOwnOccasions} ownOccasions={ownOccasions}/>
+        <OccasionsList 
+          occasionHooks={occasionHooks}
+          user={user}/>
+      </Container>
+    </>
   );
 }
 

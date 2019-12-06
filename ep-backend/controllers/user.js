@@ -31,7 +31,7 @@ userRouter.post('/', async(request, response, next) => {
     })
 
     const savedUser = await newUser.save();
-    response.json(savedUser);
+    response.json(savedUser.toJSON());
   } catch(exception){
     next(exception);
   }
