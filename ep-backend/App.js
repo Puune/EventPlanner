@@ -13,6 +13,10 @@ const invitationRouter = require('./controllers/invitation');
 
 const app = express();
 
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static('build'));
+}
+
 async function conn() {
   logger.info(`Connecting to ${config.MONGODB_URI}`);
   try{
