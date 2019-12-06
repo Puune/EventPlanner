@@ -13,8 +13,6 @@ const occasionRouter = require('./controllers/occasion');
 const invitationRouter = require('./controllers/invitation');
 
 const app = express();
-app.user(cors);
-
 if(process.env.NODE_ENV === 'production'){
   app.use(express.static('build'));
 }
@@ -31,6 +29,7 @@ async function conn() {
 }
 conn()
 
+app.user(cors());
 
 app.use(bodyParser.json());
 app.use(middleware.requestLogger);
