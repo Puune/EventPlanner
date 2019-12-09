@@ -29,7 +29,7 @@ async function conn() {
 }
 conn()
 
-app.user(cors());
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(middleware.requestLogger);
