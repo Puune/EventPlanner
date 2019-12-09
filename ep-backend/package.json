@@ -9,7 +9,7 @@
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "build:ui": "del build && cd.. && cd ep-frontend && npm run build --prod && xcopy /E build ..\\ep-backend\\build\\",
     "deploy": "cd .. && git subtree push --prefix ep-backend heroku master",
-    "deploy:full": "cross-env NODE_ENV=production npm run build:ui && git add . && git commit -m uibuild && npm run deploy"
+    "deploy:full": "cross-env NODE_ENV=heroku npm run build:ui && git add . && git commit -m uibuild && npm run deploy"
   },
   "author": "Panu Lindqvist",
   "license": "ISC",
