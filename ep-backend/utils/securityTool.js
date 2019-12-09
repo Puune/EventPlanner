@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('./config').default.default;
+const config = require('./config');
 
 const genPasswordhash = async (source) => {
   const saltRounds = 10;
