@@ -1,6 +1,16 @@
+/**
+ * This module contains bootstrap container
+ * @module Layout
+ */
+import React from 'react'
 import Container from 'react-bootstrap/Container'
 
-const Container = (props) => {
+/**
+ * This is the bootstrap container element
+ * @class
+ * @param {*} props 
+ */
+const myContainer = (props) => {
   return(
     <Container>
       {props.children}
@@ -8,4 +18,4 @@ const Container = (props) => {
   )
 }
 
-export default Container;
+export default myContainer;

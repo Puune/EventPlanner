@@ -1,9 +1,20 @@
+/**
+ * Invite service module.
+ * @module invite
+ */
+
 import axios from 'axios';
 import confTool from '../util/configTool';
 
 const baseUrl = '/api/invitation'
 
-
+/**
+ * This function sends invite requests to back-end
+ * @function sendInvite
+ * @param { user } user 
+ * @param { String  occasionId 
+ * @param { String } inviteeId 
+ */
 const sendInvite = async (user, occasionId, inviteeId) => {
   try {
     const config = confTool.getConfig(user);
@@ -19,6 +30,13 @@ const sendInvite = async (user, occasionId, inviteeId) => {
   }
 }
 
+/**
+ * This function sends invite-response requests to back-end
+ * @function answerInvite
+ * @param { user } user 
+ * @param { String } occasionId 
+ * @param { Boolean } accept 
+ */
 const answerInvite = async (user, occasionId, accept) => {
   try{
     const config = confTool.getConfig(user);

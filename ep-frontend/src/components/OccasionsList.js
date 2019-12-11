@@ -1,50 +1,28 @@
-import React, {useState, useEffect} from 'react';
+/**
+ * This module contains occasion list component
+ * @module OccasionsList
+ */
+
+import React from 'react';
 import _ from 'lodash';
-import Occasion from './Occasion';
+import Occasion from './OccasionClass';
 
 import ListGroup from 'react-bootstrap/ListGroup';
 
+/**
+ * This component builds a list of occasions
+ * @class
+ * @param {*} props 
+ */
 const OccasionsList = (props) => {
 
-  const occasionHooks = props.occasionHooks;
+  const occasions = props.occState.occasions;
 
-  const [combinedList, setCombinedList] = useState([]);
-
-  //combine all events to a list removing duplicates
-  useEffect(() => {
-    let newCombinedArr = [];    
-    //Push public
-    occasionHooks.pubOccasions.forEach((occ) => {
-      newCombinedArr = newCombinedArr.concat(occ);
-    })
-
-    //push private
-    occasionHooks.privateOccasions.forEach((occ) => {
-      let pubOcc = _.find(occasionHooks.pubOccasions, { 'id': occ.id });
-      if(typeof pubOcc !== 'undefined'){
-        _.remove(newCombinedArr, (n) => n.id === occ.id);
-      }
-      newCombinedArr = newCombinedArr.concat(occ);
-    })
-
-    //push owned
-    occasionHooks.ownOccasions.forEach((occ) => {
-      let pubOcc = _.find(occasionHooks.pubOccasions, { 'id': occ.id });
-      if(typeof pubOcc !== 'undefined'){
-        _.remove(newCombinedArr, (n) => n.id === pubOcc.id);
-      }
-      newCombinedArr = newCombinedArr.concat(occ);
-    })
-  
-    setCombinedList(_.reverse(combinedList));
-    
-    setCombinedList(newCombinedArr);
-  }, [
-    occasionHooks.ownOccasions,
-    occasionHooks.privateOccasions,
-    occasionHooks.pubOccasions
-  ])
-
+  /**
+   * This function creates a singular list element for the list
+   * @function listBuild
+   * @param {*} item 
+   */
   const listBuild = (item) => {
     if(item.type === 'delete'){
       return;
@@ -62,7 +40,7 @@ const OccasionsList = (props) => {
 
   return(
     <ListGroup >
-      {combinedList.map((item) => listBuild(item))}
+      {occasions.map((item) => listBuild(item))}
     </ListGroup>
   )
 }

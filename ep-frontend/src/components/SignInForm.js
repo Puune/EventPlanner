@@ -1,3 +1,8 @@
+/**
+ * This module contains all sing in elements
+ * @module SignInForm
+ */
+
 import React, {useState} from 'react'
 
 import signInService from '../services/signIn';
@@ -7,12 +12,23 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
+
+/**
+ * This component contains all form fields and handlers for signin in.
+ * @class
+ * @param {*} props 
+ */
 const SignIn = (props) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');  
 
+  /**
+   * This function handles sign in event
+   * @function signInHandler
+   * @param { event } event 
+   */
   const signInHandler = async (event) => {
     event.preventDefault();
 

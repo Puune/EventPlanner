@@ -1,3 +1,8 @@
+/**
+ * This module contains elements for user info modal
+ * @module UserInfo
+ */
+
 import React, {useState} from 'react'
 
 import LogoutBtn from './LogoutButton';
@@ -8,6 +13,11 @@ import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+/**
+ * This component contains both User information page and signin/login form
+ * @class
+ * @param {*} props 
+ */
 const UserInfo = (props) => {  
 
   const [toggled, setToggled] = useState(false);

@@ -1,3 +1,8 @@
+/**
+ * This module contains form elements, for inviting users to occasions
+ * @module InviteForm
+ */
+
 import React, {useState, useEffect} from 'react';
 import usersService from '../services/user';
 import inviteService from '../services/invite'
@@ -9,8 +14,20 @@ import Form from 'react-bootstrap/Form';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 
+/**
+ * This component generates suggestion cards when searching for users
+ * @class
+ * @param { String } search
+ * @param { User[] } users 
+ * @param { setState } setSearch
+ * @param { Occasion } occasion  
+ */
 const CardGenerator = ({search, users, setSearch, occasion}) => {
 
+  /**
+   * This function creates a filtered list from search input
+   * @function filteredList
+   */
   const filteredList = () => {
     var arr = [];
     let capSearch = search.toUpperCase();
@@ -42,14 +59,21 @@ const CardGenerator = ({search, users, setSearch, occasion}) => {
     <>
       <ListGroup>
         {filteredList().map((item) => 
-          <ListGroup.Item key={item.id}>{cardMaker(item, setSearch)}
+          <ListGroup.Item key={item.id}>{CustomCard(item, setSearch)}
             </ListGroup.Item>)}
       </ListGroup>
     </>
   )
 }
 
-const cardMaker = (user, setSearch) => {
+
+/**
+ * This is a suggestion card. Can be used to select user.
+ * @class
+ * @param { user } user 
+ * @param { setState } setSearch 
+ */
+const CustomCard = (user, setSearch) => {
   return(
     <Card 
       onClick={()=> setSearch(user.username)}
@@ -65,6 +89,12 @@ const cardMaker = (user, setSearch) => {
 }
 
 
+/**
+ * This component allows occasion owner to search and invite users to their occasion.
+ * @class
+ * @param { user } user
+ * @param { occasion } occasion 
+ */
 const InviteForm = ({user, occasion}) => {
 
   const [search, setSearch] = useState('');
@@ -81,6 +111,11 @@ const InviteForm = ({user, occasion}) => {
     }
   }, [user])  
 
+  /**
+   * This function handles submit event
+   * @function submitHandler
+   * @param { event } event 
+   */
   const submitHandler = async(event) => {
     try{
       event.preventDefault();

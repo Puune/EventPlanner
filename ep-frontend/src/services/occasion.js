@@ -1,45 +1,38 @@
+/**
+ * Occasion service module
+ * @module occasion
+ */
+
 import axios from 'axios';
 import confTool from '../util/configTool';
 const baseUrl = '/api/occasions';
 
-
-const getPublic = async (user) => {
-  try{
-    if(user){
+/**
+ * This functions sends occasions get requests to back-end
+ * @function getAll
+ * @param { user } user 
+ */
+const getAll = async (user) => {
+  if(user){
+    try{
       const config = confTool.getConfig(user);
-      const res = await axios.get(`${baseUrl}/public`, config);
-      return res.data
-    } else {
-      const res = await axios.get(`${baseUrl}/public`);
-      return res.data
+      const res = await axios.get(baseUrl, config);
+      return res.data;
+
+    } catch(exception){
+      console.log(exception);
     }
-  }catch (exception){
-    console.log(exception);
+  } else {
+    const res = await axios.get(baseUrl);
+    return res.data;
   }
 }
 
-const getOwned = async (user) => {    
-  try {
-    const config = confTool.getConfig(user);
-    const response = await axios.get(`${baseUrl}/owned`, config);
-    return response.data;
-
-  } catch (exception) {
-    console.log(exception);
-  }
-}
-
-const getPrivates = async (user) => {
-  try {
-    const config = confTool.getConfig(user);
-    const response = await axios.get(`${baseUrl}/privates`, config);
-    return response.data;
-
-  } catch (exception) {
-    console.log(exception);
-  }
-}
-
+/**
+ * This function sends post occasion requests to back-end
+ * @function submit
+ * @param {*} props 
+ */
 const submit = async (props) => {
   const user = props.user;
   const body = props.body;
@@ -63,16 +56,17 @@ const submit = async (props) => {
   }
 }
 
-
+/**
+ * This function sends occasion put requests that allow user to participate a public occasion.
+ * @function participatePublic
+ * @param {*} props 
+ */
 const participatePublic = async(props) => {
-  console.log(props);
-  
   const user = props.user;
   const body = props.body;
 
   try {
     const config = confTool.getConfig(user);
-
     const response = await axios.put(baseUrl, body, config);
     return response.data;
   } catch(exception){
@@ -80,6 +74,12 @@ const participatePublic = async(props) => {
   }
 }
 
+/**
+ * This function send occasion delete requests to back-end
+ * @function deleteOccasion
+ * @param { user } user 
+ * @param { String } occasionId 
+ */
 const deleteOccasion = async(user, occasionId) => {
   try{
     const config = confTool.getConfig(user);
@@ -90,4 +90,4 @@ const deleteOccasion = async(user, occasionId) => {
   }
 }
 
-export default { getPublic, getOwned, getPrivates, submit, participatePublic, deleteOccasion };
+export default { getAll, submit, participatePublic, deleteOccasion };

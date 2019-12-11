@@ -21,6 +21,10 @@
   color: #09d3ac;
 }
 
+.force-linebreak {
+  overflow-wrap: break-word;
+}
+
 .no-style {
   all: none;
   list-style: none;
@@ -49,6 +53,11 @@
 .occ {
   padding: 20px;
   border-radius: 5px;
+}
+
+.left-buffer {
+  padding-left: 15px;
+  margin-left: 25px;
 }
 
 .navbar-item {

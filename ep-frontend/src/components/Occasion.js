@@ -1,3 +1,10 @@
+/**
+ * This module contains DEPRECATED component for viewing occasion
+ * Please see OccasionClass
+ * @deprecated
+ * @module Occasion
+ */
+
 import React, {useState, useEffect} from 'react';
 import OccasionActionsElement from './OccasionActionsElement';
 
@@ -17,15 +24,27 @@ const Occasion = ({occasion, user}) => {
   const [expanded, setExpanded] = useState(false);
   const expansion = (exp) => { return { display: exp ? '' : 'none' }}
 
-  const [classname, setClassname] = useState('');
-  const updateClassname = (occasion) => setClassname(occasionTyper.getClassName(occasion));
+  const [occ, setOcc] = useState(occasion);
 
   useEffect(() => {
-    updateClassname(occasion)
-  },[occasion])
+    if(occ){
+      let temp = Object.assign(occ);
+      temp.classname = occasionTyper.getClassName(occasion);      
+      temp.info = occasionTyper.getOccasionInfoText(temp);
+      setOcc(temp);
+    }        
+  },[])
+
+  const extractLength = () => {
+    try{
+      return occ.participants.length;
+    } catch (exception){
+      return 0;
+    }
+  }
 
   return (
-    <Media as="li" key={occasion.id} className={`${classname} occ`}>
+    <Media as="li" key={occ.id} className={`${occ.classname} occ`}>
       <Media.Body>
       <Button 
         onClick={() => setExpanded(!expanded)}
@@ -36,7 +55,7 @@ const Occasion = ({occasion, user}) => {
         <div style={expansion(!expanded)}>
           <Row noGutters style={{alignItems: 'center'}}>
             <Col as="h3" sm={5}>{occasion.title}</Col> 
-            <Col as="h5"><Badge>{occasion.info}</Badge></Col>
+            <Col as="h5"><Badge>{occ.info}</Badge></Col>
           </Row>
           <Row>
             <Col as="h5">{occasion.subtitle}</Col>
@@ -50,7 +69,7 @@ const Occasion = ({occasion, user}) => {
           </Row> 
           <Row noGutters>
             <Col as ="h5" md={3}>{occasion.subtitle}</Col>
-            <Col as="h5"><Badge>{occasion.info}</Badge></Col>
+            <Col as="h5"><Badge>{occ.info}</Badge></Col>
           </Row>
           <br/>
           <Row>
@@ -77,14 +96,14 @@ const Occasion = ({occasion, user}) => {
               </Row>
               <br/>
               <Row noGutters>
-                {`Participating: ${occasion.participants.length}`}
+                {`Participating: ${extractLength()}`}
               </Row>
             </Col>
           </Row>
           <br/>
           <OccasionActionsElement 
             occasion={occasion} user={user}
-            updateClassname={updateClassname}
+            occ={occ} setOcc={setOcc}
           />
         </div>
       </Media.Body>

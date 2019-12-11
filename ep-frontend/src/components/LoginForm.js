@@ -1,3 +1,8 @@
+/**
+ * This module contains form for logging in.
+ * @module LoginForm
+ */
+
 import React, {useState} from 'react';
 import loginService from '../services/login';
 
@@ -6,11 +11,21 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
+/**
+ * This component contains elements and handler for logging in
+ * @class
+ * @param {*} props 
+ */
 const LoginForm = (props) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  /**
+   * This function hanles login event
+   * @function loginHandler
+   * @param { event } event 
+   */
   const loginHandler = async (event) => {    
     event.preventDefault();
     try{
