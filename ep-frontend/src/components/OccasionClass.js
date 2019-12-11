@@ -41,7 +41,7 @@ class Occasion extends React.Component {
    * @function UNSAFE_componentWillMount
    */
   UNSAFE_componentWillMount() {
-    console.log('will mount: ',this.state.occasion);
+    //console.log('will mount: ',this.state.occasion);
     var temp = Object.assign(this.state.occasion);
     temp.classname = occasionTyper.getClassName(this.state.occasion);
     temp.info = occasionTyper.getOccasionInfoText(this.state.occasion);
@@ -54,7 +54,7 @@ class Occasion extends React.Component {
    * @function componentDidMount
    */
   componentDidMount() {
-    console.log('did mount:', this.state.occasion);
+    //console.log('did mount:', this.state.occasion);
   }
 
   /**

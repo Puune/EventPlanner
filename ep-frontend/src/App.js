@@ -48,7 +48,6 @@ function App() {
           setOccasions(occs);
         });
       }    
-      console.log('Here!');      
   }, [user]);
 
   useEffect(() => {
