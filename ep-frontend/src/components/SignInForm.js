@@ -18,7 +18,7 @@ import Button from 'react-bootstrap/Button';
  * @class
  * @param {*} props 
  */
-const SignIn = (props) => {
+const SignInForm = (props) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -94,7 +94,7 @@ const SignIn = (props) => {
             <Form.Group>
               <Button
                 type="submit">
-                  Sing In
+                  Sing up
                 </Button>
             </Form.Group>
           </Col>
@@ -103,7 +103,7 @@ const SignIn = (props) => {
               onClick={props.toggle}
               variant="secondary"
               >
-              Or Login</Button>
+              Or login</Button>
           </Col>
         </Row>
       </Form>
@@ -111,4 +111,4 @@ const SignIn = (props) => {
   )
 }
 
-export default SignIn;
+export default SignInForm;

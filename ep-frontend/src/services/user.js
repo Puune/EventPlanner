@@ -13,7 +13,7 @@ const baseUrl = '/api/users'
  */
 const getUsers = async () => {
   try{
-    const response = await axios.get(baseUrl);
+    const response = await axios.get(baseUrl);    
     return response.data;
   } catch (exception){
     console.log(exception);

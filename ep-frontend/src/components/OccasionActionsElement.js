@@ -20,7 +20,7 @@ import Button from 'react-bootstrap/Button';
  * @param { user } user
  * @param {*} props 
  */
-const InviteElement = ({occasion, user, ...props}) => {
+const OccasionActionElement = ({occasion, user, ...props}) => {
   
   const [expanded, setExpanded] = useState(false);
   const expansion = (exp) => { return { display: exp ? '' : 'none' }}
@@ -71,16 +71,16 @@ const InviteElement = ({occasion, user, ...props}) => {
    * This function handles an event where user participates a public event
    * @function handleParticipatePublicEvent
    */
-  const handleParticipatePublicEvent = async(participate) => {
+  const handleParticipateEvent = async(participate) => {
     const body = {
       participate,
       occasionId: occasion.id
     }
 
-    var upOccasion = await occasionService.participatePublic({user, body});
+    var upOccasion = await occasionService.participate({user, body});
     setOccasion(upOccasion);
 
-    if(occasion.isPrivate){
+    if(occasion.isPrivate && !participate){
       let temp = Object.assign(occasion);
       temp.type = 'delete'
       setOccasion(temp);
@@ -100,7 +100,11 @@ const InviteElement = ({occasion, user, ...props}) => {
         </Button>
 
         <div style={expansion(expanded)}>
-          <InviteForm user={user} occasion={occasion}/>
+          <InviteForm 
+            user={user} 
+            occasion={occasion}
+            userState={props.userState}
+            />
         </div>
         <div style={expansion(!expanded)}>
 
@@ -129,7 +133,7 @@ const InviteElement = ({occasion, user, ...props}) => {
       <React.Fragment>
         <Button
           variant='warning'
-          onClick={() => handleParticipatePublicEvent(false)}
+          onClick={() => handleParticipateEvent(false)}
         >
           Leave  
         </Button>
@@ -140,7 +144,7 @@ const InviteElement = ({occasion, user, ...props}) => {
       return(
         <React.Fragment>
           <Button
-            onClick={() => handleParticipatePublicEvent(true)}
+            onClick={() => handleParticipateEvent(true)}
           >
             Participate
           </Button>
@@ -168,4 +172,4 @@ const InviteElement = ({occasion, user, ...props}) => {
   }
 }
 
-export default InviteElement;
+export default OccasionActionElement;

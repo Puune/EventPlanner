@@ -80,7 +80,7 @@ const LoginForm = (props) => {
               onClick={props.toggle}
               variant="secondary"
               >  
-              Or Sign in</Button>
+              Or Sign up</Button>
           </Col>
         </Row>
       </Form>

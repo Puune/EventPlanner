@@ -42,9 +42,11 @@ class Occasion extends React.Component {
    */
   UNSAFE_componentWillMount() {
     console.log('will mount: ',this.state.occasion);
-    this.state.occasion.classname = occasionTyper.getClassName(this.state.occasion);
-    this.state.occasion.info = occasionTyper.getOccasionInfoText(this.state.occasion);
-    occasionTyper.convertJSONToDate(this.state.occasion);
+    var temp = Object.assign(this.state.occasion);
+    temp.classname = occasionTyper.getClassName(this.state.occasion);
+    temp.info = occasionTyper.getOccasionInfoText(this.state.occasion);
+    occasionTyper.convertJSONToDate(temp);
+    this.setOccasionState(temp)
   }
 
   /**
@@ -126,7 +128,7 @@ class Occasion extends React.Component {
                 <Row noGutters md='auto'>
                   <h4>
                     {occasion.date.getDate()}.
-                    {occasion.date.getMonth()}.
+                    {occasion.date.getMonth()+1 /*Month go form 0-11*/}.
                     {occasion.date.getFullYear()}
                   </h4>
                 </Row>
@@ -151,6 +153,7 @@ class Occasion extends React.Component {
             <br/>
             <OccasionActionsElement 
               occasion={occasion} user={user}
+              userState={this.props.userState}
               setOccasionState={this.setOccasionState}
             />
           </div>

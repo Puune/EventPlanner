@@ -16,7 +16,9 @@ const getAll = async (user) => {
   if(user){
     try{
       const config = confTool.getConfig(user);
-      const res = await axios.get(baseUrl, config);
+      const res = await axios.get(baseUrl, config);     
+      console.log(res.data);
+       
       return res.data;
 
     } catch(exception){
@@ -57,17 +59,18 @@ const submit = async (props) => {
 }
 
 /**
- * This function sends occasion put requests that allow user to participate a public occasion.
- * @function participatePublic
+ * This function sends occasion put requests that allow user to participate a occasion.
+ * @function participate
  * @param {*} props 
  */
-const participatePublic = async(props) => {
+const participate = async(props) => {
   const user = props.user;
   const body = props.body;
 
   try {
     const config = confTool.getConfig(user);
     const response = await axios.put(baseUrl, body, config);
+    
     return response.data;
   } catch(exception){
     console.log(exception);
@@ -90,4 +93,4 @@ const deleteOccasion = async(user, occasionId) => {
   }
 }
 
-export default { getAll, submit, participatePublic, deleteOccasion };
+export default { getAll, submit, participate, deleteOccasion };

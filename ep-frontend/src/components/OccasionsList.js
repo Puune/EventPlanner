@@ -9,6 +9,28 @@ import Occasion from './OccasionClass';
 
 import ListGroup from 'react-bootstrap/ListGroup';
 
+
+/**
+ * @class
+ * @param { occasion } item 
+ * @param {*} props 
+ */
+const ListBuild = (item, props) => {
+  if(item.type === 'delete'){
+    return;
+  } else {
+    return(
+      <ListGroup.Item key={item.id}>
+        <Occasion 
+          occasion={item} 
+          user={props.user}
+          userState={props.userState}
+          />
+      </ListGroup.Item>
+    )
+  }
+}
+
 /**
  * This component builds a list of occasions
  * @class
@@ -23,24 +45,10 @@ const OccasionsList = (props) => {
    * @function listBuild
    * @param {*} item 
    */
-  const listBuild = (item) => {
-    if(item.type === 'delete'){
-      return;
-    } else {
-      return(
-        <ListGroup.Item key={item.id}>
-          <Occasion 
-            occasion={item} 
-            user={props.user}
-            />
-        </ListGroup.Item>
-      )
-    }
-  }
 
   return(
     <ListGroup >
-      {occasions.map((item) => listBuild(item))}
+      {occasions.map((item) => ListBuild(item, props))}
     </ListGroup>
   )
 }

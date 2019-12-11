@@ -11,6 +11,149 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
+
+/**
+ * This is the master form comnponent.
+ * @class
+ * @param { user } user
+ * @param { useState } occState 
+ */
+const OccasionForm = ({user, occState}) => {
+
+  const occasions = occState.occasions;
+  const setOccasions = occState.setOccasions;
+
+  const [title, setTitle] = useState('');
+  const [subtitle, setSubtitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [privacy, setPrivacy] = useState(false);
+
+  const [day, setDay] = useState(19);
+  const [month, setMonth] = useState(3);
+  const [year, setYear] = useState(2019);
+  const [time, setTime] = useState('12:30');
+
+  const [location, setLocation] = useState('');
+
+  const [expanded, setExpanded] = useState('');
+  const expansion = (exp) => { return { display: exp ? '' : 'none' }}
+
+  const [visible, setVisible] = useState(false);
+  const visibility = (vis) => { return { display: vis ? '' : 'none' }}
+
+  useEffect(() => {
+    if(user){
+      setVisible(true);
+    }
+  }, [user])
+
+
+  /**
+   * This function handles form submission event
+   * @function handleSubmit
+   * @param { event } event 
+   */
+  const handleSubmit = async (event) => {
+    if(user){
+      try{
+        event.preventDefault();
+
+        const date = new Date()
+        date.setFullYear(year);
+        date.setMonth(month-1);
+        date.setDate(day);
+        console.log(date);
+        
+        date.setHours(Number(time.slice(0,2)));
+        date.setMinutes(Number(time.slice(3,5)));
+        date.setSeconds(0);
+        
+        const body = {
+          title: title,
+          subtitle: subtitle,
+          description: description,
+          isPrivate: privacy,
+          date: date,
+          location
+        }
+
+        const returnObj = await occasionService.submit({user, body});
+        if(returnObj){          
+          await setOccasions(occasions.concat(returnObj));
+        }
+
+        setTitle(''); setSubtitle(''); setDescription(''); setLocation('');
+        setExpanded(false);
+
+      } catch(exception) {
+        console.log(exception);
+      }
+    }
+  }
+
+  /**
+   * This helper function returns content String for 'expand' button
+   * @function getButtonContent
+   */
+  const getButtonContent = () => {
+    return expanded === true
+      ? 'Hide'
+      : 'Create Event'
+  }
+
+  return (
+    <div style={visibility(visible)}>
+      <Button
+        onClick={() => setExpanded(!expanded)}
+        block
+      >
+        {getButtonContent()}
+      </Button>
+      <br/>
+      <Form onSubmit={handleSubmit} style={expansion(expanded)}>
+        <Row>
+          <Col md={{}}>
+            <Title title={title} setTitle={setTitle}/>
+          </Col>
+          <Col>
+            <Subtitle subtitle={subtitle} setSubtitle={setSubtitle}/>
+          </Col>
+        </Row>
+        <Row noGutters>
+          <Col>
+            <Description description={description} setDescription={setDescription} />
+           </Col>
+        </Row>
+        <Row>
+          <Col md={{span: 4}}>
+            <Row noGutters>
+              <Day day={day} setDay={setDay}/>
+              <Month month={month} setMonth={setMonth}/>
+              <Year year={year} setYear={setYear}/>
+            </Row>
+            <Row noGutters>
+              <Time time={time} setTime={setTime}/>
+            </Row>
+          </Col>
+          <Col md={{span: 2}}>
+            <Privacy privacy={privacy} setPrivacy={setPrivacy}/>
+          </Col>
+          <Col>
+            <Location location={location} setLocation={setLocation}/>
+          </Col>
+        </Row>
+        <Form.Group>
+          <Button 
+            sm={{offset: 2}}
+            type="submit"
+            >Submit</Button>
+        </Form.Group>
+      </Form>
+    </div>
+  )
+}
+
+
 /**
  * Title form component
  * @class
@@ -212,144 +355,4 @@ const Location = ({location, setLocation}) => {
     </Form.Label>
   )
 }
-
-/**
- * This is the master form comnponent.
- * @class
- * @param { user } user
- * @param { useState } occState 
- */
-const OccasionForm = ({user, occState}) => {
-
-  const occasions = occState.occasions;
-  const setOccasions = occState.setOccasions;
-
-  const [title, setTitle] = useState('');
-  const [subtitle, setSubtitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [privacy, setPrivacy] = useState(false);
-
-  const [day, setDay] = useState(19);
-  const [month, setMonth] = useState(3);
-  const [year, setYear] = useState(2019);
-  const [time, setTime] = useState('12:30');
-
-  const [location, setLocation] = useState('');
-
-  const [expanded, setExpanded] = useState('');
-  const expansion = (exp) => { return { display: exp ? '' : 'none' }}
-
-  const [visible, setVisible] = useState(false);
-  const visibility = (vis) => { return { display: vis ? '' : 'none' }}
-
-  useEffect(() => {
-    if(user){
-      setVisible(true);
-    }
-  }, [user])
-
-
-  /**
-   * This function handles form submission event
-   * @function handleSubmit
-   * @param { event } event 
-   */
-  const handleSubmit = async (event) => {
-    if(user){
-      try{
-        event.preventDefault();
-
-        const date = new Date()
-        date.setFullYear(year);
-        date.setMonth(month);
-        date.setDate(day);
-        date.setHours(Number(time.slice(0,2)));
-        date.setMinutes(Number(time.slice(3,5)));
-        date.setSeconds(0);
-        
-        const body = {
-          title: title,
-          subtitle: subtitle,
-          description: description,
-          isPrivate: privacy,
-          date: date,
-          location
-        }
-
-        const returnObj = await occasionService.submit({user, body});
-        if(returnObj){          
-          await setOccasions(occasions.concat(returnObj));
-        }
-
-        setTitle(''); setSubtitle(''); setDescription(''); setLocation('');
-        setExpanded(false);
-
-      } catch(exception) {
-        console.log(exception);
-      }
-    }
-  }
-
-  /**
-   * This helper function returns content String for 'expand' button
-   * @function getButtonContent
-   */
-  const getButtonContent = () => {
-    return expanded === true
-      ? 'Hide'
-      : 'Create Event'
-  }
-
-  return (
-    <div style={visibility(visible)}>
-      <Button
-        onClick={() => setExpanded(!expanded)}
-        block
-      >
-        {getButtonContent()}
-      </Button>
-      <br/>
-      <Form onSubmit={handleSubmit} style={expansion(expanded)}>
-        <Row>
-          <Col md={{}}>
-            <Title title={title} setTitle={setTitle}/>
-          </Col>
-          <Col>
-            <Subtitle subtitle={subtitle} setSubtitle={setSubtitle}/>
-          </Col>
-        </Row>
-        <Row noGutters>
-          <Col>
-            <Description description={description} setDescription={setDescription} />
-           </Col>
-        </Row>
-        <Row>
-          <Col md={{span: 4}}>
-            <Row noGutters>
-              <Day day={day} setDay={setDay}/>
-              <Month month={month} setMonth={setMonth}/>
-              <Year year={year} setYear={setYear}/>
-            </Row>
-            <Row noGutters>
-              <Time time={time} setTime={setTime}/>
-            </Row>
-          </Col>
-          <Col md={{span: 2}}>
-            <Privacy privacy={privacy} setPrivacy={setPrivacy}/>
-          </Col>
-          <Col>
-            <Location location={location} setLocation={setLocation}/>
-          </Col>
-        </Row>
-        <Form.Group>
-          <Button 
-            sm={{offset: 2}}
-            type="submit"
-            >Submit</Button>
-        </Form.Group>
-      </Form>
-    </div>
-  )
-}
-
 export default OccasionForm;

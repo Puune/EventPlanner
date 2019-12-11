@@ -12,31 +12,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Button from 'react-bootstrap/Button';
 
-/**
- * This is a 'user button' that open user modal
- * @class
- * @param { user } user 
- * @param { Boolean } setModalVisible 
- */
-const User = (user, setModalVisible) => {
-  let cont = ""
-  if(user){
-    cont = user.username
-  } else {
-    cont = 'Log in'
-  }
-
-  return(
-    <ButtonToolbar>
-      <Button 
-        onClick={() => setModalVisible(true)}
-        variant='light'
-        size='lg'
-      >
-      {cont}</Button>
-    </ButtonToolbar>
-  )
-}
 
 /**
  * This component is the header of this webpage.
@@ -75,5 +50,33 @@ const Header = (props) => {
     </>
   )
 }
+
+
+/**
+ * This is a 'user button' that open user modal
+ * @class
+ * @param { user } user 
+ * @param { Boolean } setModalVisible 
+ */
+const User = (user, setModalVisible) => {
+  let cont = ""
+  if(user){
+    cont = user.username
+  } else {
+    cont = 'Log in'
+  }
+
+  return(
+    <ButtonToolbar>
+      <Button 
+        onClick={() => setModalVisible(true)}
+        variant='light'
+        size='lg'
+      >
+      {cont}</Button>
+    </ButtonToolbar>
+  )
+}
+
 
 export default Header;

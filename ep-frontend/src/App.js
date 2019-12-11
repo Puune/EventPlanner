@@ -5,7 +5,10 @@
  */
 
 import React, {useState, useEffect} from 'react';
+import _ from 'lodash';
 import occasionService from './services/occasion';
+import userService from './services/user';
+
 import occasionTyper from './util/occasionTyper';
 
 import OccasionsList from './components/OccasionsList'
@@ -22,14 +25,43 @@ function App() {
     occasions, setOccasions
   }
 
-  const [user, setUser] = useState();  
+  const [user, setUser] = useState();
+
+  const [users, setUsers] = useState([]);  
+  const userState = {
+    users, setUsers
+  }
+
+  const typeOccasion = (occ) => {
+    occ.classname = occasionTyper.getClassName(occ);
+    occ.info = occasionTyper.getOccasionInfoText(occ);
+    occasionTyper.convertJSONToDate(occ);
+    return occ;
+  } 
 
   useEffect(() => {
     if(user){      
       occasionService
         .getAll(user)
-        .then(occs => setOccasions(occs));
+        .then(occs => {
+          occs.map((occ) => occ = typeOccasion(occ));
+          setOccasions(occs);
+        });
       }    
+      console.log('Here!');
+      console.log(occasions);
+      
+  }, [user]);
+
+  useEffect(() => {
+    if(user){
+      userService
+        .getUsers({})
+        .then(res => {
+          res = _.reject(res, { 'username' : user.username })
+          setUsers(res)
+        })      
+    }
   }, [user]);
 
 
@@ -64,7 +96,8 @@ function App() {
         <OccasionForm user={user} occState={occState}/>
         <OccasionsList 
           occState={occState}
-          user={user}/>
+          user={user}
+          userState={userState}/>
       </Container>
     </>
   );

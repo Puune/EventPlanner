@@ -55,9 +55,7 @@ const getOccasionInfoText = (occasion) => {
  * @param { occasion } occasion 
  */
 const convertJSONToDate = (occasion) => {
-  try{
-    console.log(occasion);
-    
+  try{    
     occasion.date = new Date(occasion.date)
     return;
   } catch(exception){
