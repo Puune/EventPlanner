@@ -75,7 +75,6 @@ invitationRouter.put('/', async (request, response, next) => {
       await invitee.save();
       await occasion.save();
 
-      console.log(occasion);
       response.status(200).json(occasion.toJSON());
     }
   } catch(exception){

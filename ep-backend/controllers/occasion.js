@@ -54,11 +54,15 @@ occasionRouter.get('/', async(request, response, next) => {
       collection = collection.concat(invitedTo);
       collection = collection.concat(participating);
 
+      //filter out owned & participated
       publics = publics.filter((occ) => {
-        return !_.includes(collection, occ.id);
+        return(
+          !_.includes(occ.participants.toString(), request.token.id)
+          &&
+          (occ.owner.toString() !== request.token.id)
+        )
       })
-
-      collection.concat(publics);
+      collection = collection.concat(publics);
 
       response.json(collection.map((occ) => occ.toJSON()));
 
@@ -179,31 +183,26 @@ occasionRouter.put('/', async(request, response, next) => {
       const occasion = await Occasion.findById(request.body.occasionId);
       const user = await User.findById(request.token.id);
 
-      if(occasion.isPrivate === false){
-        response.status(401).json({ error: 'User not valid to participate' }).end();
-      } else {
-        try{
-          if(request.body.participate === true){
-            occasion.participants = occasion.participants.concat(user._id);
-            user.occasions = user.occasions.concat(occasion._id);
-          } else if(request.body.participate === false){
-            occasion.participants =
-              occasion.participants.filter((part) => part.toString() !== user._id.toString());
-            user.occasions =
-              user.occasions.filter((occ) => occ.toString() !== occasion._id.toString());
-          }
-
-          await occasion.save();
-          await user.save();
-
-          (request.body.participate === true)
-            ? occasion.type = 'participant'
-            : occasion.type = 'public';
-
-          response.status(200).json(occasion.toJSON());
-        } catch(exception){
-          console.log(exception);
+      try{
+        if(request.body.participate === true){
+          occasion.participants = occasion.participants.concat(user._id);
+          user.occasions = user.occasions.concat(occasion._id);
+        } else if(request.body.participate === false){
+          occasion.participants =
+            occasion.participants.filter((part) => part.toString() !== user._id.toString());
+          user.occasions =
+            user.occasions.filter((occ) => occ.toString() !== occasion._id.toString());
         }
+
+        await occasion.save();
+        await user.save();
+
+        (request.body.participate === true)
+          ? occasion.type = 'participant'
+          : occasion.type = 'public';
+        response.status(200).json(occasion.toJSON());
+      } catch(exception){
+        next(exception);
       }
     }
   } catch(exception){
