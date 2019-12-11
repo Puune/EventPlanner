@@ -16,9 +16,7 @@ const getAll = async (user) => {
   if(user){
     try{
       const config = confTool.getConfig(user);
-      const res = await axios.get(baseUrl, config);     
-      console.log(res.data);
-       
+      const res = await axios.get(baseUrl, config);            
       return res.data;
 
     } catch(exception){

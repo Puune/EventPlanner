@@ -35,6 +35,7 @@ const LoginForm = (props) => {
       props.setUser(user);
       setPassword('');
       setUsername('');
+      window.location.reload(false);
     } catch(exception) {
       console.log(exception);
     }

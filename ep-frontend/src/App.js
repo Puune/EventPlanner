@@ -48,9 +48,7 @@ function App() {
           setOccasions(occs);
         });
       }    
-      console.log('Here!');
-      console.log(occasions);
-      
+      console.log('Here!');      
   }, [user]);
 
   useEffect(() => {

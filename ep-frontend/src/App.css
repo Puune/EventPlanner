@@ -55,13 +55,20 @@
   border-radius: 5px;
 }
 
+.navbar-custom {
+  padding: 0 15px 0 15px;
+  margin: 0;
+}
+
+
 .left-buffer {
   padding-left: 15px;
   margin-left: 25px;
 }
 
 .navbar-item {
-  color: aliceblue;
+  background-color: aliceblue;
+  margin-left: 5px;
 }
 
 .jumbo {

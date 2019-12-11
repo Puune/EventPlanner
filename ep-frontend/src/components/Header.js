@@ -6,6 +6,7 @@
 import React, {useState} from 'react';
 
 import UserInfo from './UserInfo';
+import About from './About';
 
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Navbar from 'react-bootstrap/Navbar';
@@ -20,20 +21,32 @@ import Button from 'react-bootstrap/Button';
  */
 const Header = (props) => {
 
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const modalProps = {
-    show: modalVisible,
-    onHide: () => setModalVisible(false)
+  const [modalUserVisible, setModalUserVisible] = useState(false);
+  const modalUserProps = {
+    show: modalUserVisible,
+    onHide: () => setModalUserVisible(false)
   }  
+
+  const  [modalAboutVisible, setModalAboutVisible] = useState(false);
+  const modalAboutProps = {
+    show: modalAboutVisible,
+    onHide: () => setModalAboutVisible(false)
+  }
 
   return(
     <>
-      <Navbar bg='dark' >
+      <Navbar 
+        bg='dark' 
+        expand="lg"
+        className='navbar-custom'
+      >
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-            {User(props.user, setModalVisible)}
+            {AboutButton(setModalAboutVisible)}
+          </Navbar.Text>
+          <Navbar.Text>
+            {UserButton(props.user, setModalUserVisible)}
           </Navbar.Text>
         </Navbar.Collapse>
       </Navbar>
@@ -43,9 +56,12 @@ const Header = (props) => {
         </div>
       </Jumbotron>
       <UserInfo
-        modalProps={modalProps}
+        modalProps={modalUserProps}
         user={props.user}
         setUser={props.setUser}
+      />
+      <About 
+        modalProps={modalAboutProps}
       />
     </>
   )
@@ -56,9 +72,9 @@ const Header = (props) => {
  * This is a 'user button' that open user modal
  * @class
  * @param { user } user 
- * @param { Boolean } setModalVisible 
+ * @param { Boolean } setModalUserVisible 
  */
-const User = (user, setModalVisible) => {
+const UserButton = (user, setModalUserVisible) => {
   let cont = ""
   if(user){
     cont = user.username
@@ -69,11 +85,29 @@ const User = (user, setModalVisible) => {
   return(
     <ButtonToolbar>
       <Button 
-        onClick={() => setModalVisible(true)}
+        onClick={() => setModalUserVisible(true)}
         variant='light'
         size='lg'
+        className='navbar-item'
       >
       {cont}</Button>
+    </ButtonToolbar>
+  )
+}
+
+
+const AboutButton = (setModalAboutVisible) => {
+
+  return(
+    <ButtonToolbar>
+      <Button
+        onClick={() => setModalAboutVisible(true)}
+        variant='light'
+        size='lg'
+        className='navbar-item'
+      >
+        About
+      </Button>
     </ButtonToolbar>
   )
 }
