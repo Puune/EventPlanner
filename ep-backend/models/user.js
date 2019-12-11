@@ -1,6 +1,20 @@
+/**
+ * Mongoose model for users
+ * @module models.user
+ */
+
 const mongoose = require('mongoose');
 const uValid = require('mongoose-unique-validator');
 
+/**
+ * This is a Mongoose schema for User
+ * @class user
+ * @property { String } username Username of the user.
+ * @property { String } name Users real name.
+ * @property { String } passwordHash Hashed string, derivated from users initial password submission.
+ * @property { ObjectId[] } occasions Occasions that user is participating.
+ * @property { ObjectId[] } invites Occasions that user is invited to.
+ */
 const userSchema = mongoose.Schema({
   username: {
     type: String,
@@ -30,9 +44,16 @@ const userSchema = mongoose.Schema({
   ]
 })
 
+/**
+ * The model makes use of unique-validator library
+ * @implements uValidator
+ */
 userSchema.plugin(uValid);
 
-//method to format user-object for front-end
+/**
+ * @function toJSON
+ * Function to format outgoing occasions
+ */
 userSchema.set('toJSON', {
   transform: (document, returnObj) => {
     returnObj.id = returnObj._id.toString();

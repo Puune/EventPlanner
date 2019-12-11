@@ -1,10 +1,15 @@
+/**
+ * @module back_end_test
+ */
+
+
 const supertest = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../App');
 const api = supertest(app);
 const helper = require('./test_helper');
 const User = require('../models/user');
-const Occasion = require('../models/occasion');
+//const Occasion = require('../models/occasion');
 //const secTool = require('../utils/securityTool');
 
 beforeAll(async () => {
@@ -64,7 +69,7 @@ describe('when logging in', () => {
 describe('when PRUD occasions', () => {
 
   test('posting correctly', async () => {
-    const token = await 
+    const token = await
     const occ = {
       title: 'this',
       description: 'that',

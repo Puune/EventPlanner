@@ -1,5 +1,24 @@
+/**
+ * Mongoose class for Occasions
+ * @module models.occasion
+ */
+
 const mongoose = require('mongoose');
 
+/**
+ * This is a Mongoose schema for Occasion
+ * @class Occasion
+ * @property { String } title Required. Title of the occasion.
+ * @property { String } subtitle Subtitle of the occasion.
+ * @property { String } description Required. Long descritpion of the occasion.
+ * @property { Boolean } isPrivate Status, whether occasion is visible publicly.
+ * @property {  ObjectId } owner Required. Id of the occasion's owner.
+ * @property { ObjectId[] } participants Array of users participating the occasion.
+ * @property { ObjectId[] } invitees Array of users that have been invited to the occasion.
+ * @property { String } type Type of the occasion. This value is always custom tailored, when sent to browser. Types { 'public', 'owned', 'invited', 'participant' }
+ * @property { Date } date Date that the occasion happens on. The date is actually stored as JSON.
+ * @property { String } location Location of the event.
+ */
 const occasionSchema = mongoose.Schema({
   title: {
     type: String,
@@ -51,6 +70,10 @@ const occasionSchema = mongoose.Schema({
   }
 });
 
+/**
+ * Function to format outgoing occasions
+ * @function toJSON
+ */
 occasionSchema.set('toJSON', {
   transform: (document, returnObj) => {
     returnObj.id = returnObj._id.toString();

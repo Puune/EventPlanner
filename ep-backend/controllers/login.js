@@ -1,9 +1,24 @@
+/**
+ * This file handles user's login request
+ * @module controller.login
+ */
+
 const jwt = require('jsonwebtoken');
 const securityTool = require('../utils/securityTool');
 const User = require('../models/user');
 const config = require('../utils/config');
 const loginRouter = require('express').Router();
 
+/**
+ * Login POST method. Accepts user's credentials and compares them to ones in document DB.
+ * After a succesfull login, token is generated, that gives user access to most HTML request to the site.
+ * @function post
+ * @param '/' Endpart of url
+ * @param request Param that contains html request
+ * @param response Param to which html response is projected
+ * @param next Param that allows the use of middleware
+ * @returns A Token for the user
+ */
 loginRouter.post('/', async(request, response, next) => {
   try{
     const body = request.body;
@@ -35,7 +50,5 @@ loginRouter.post('/', async(request, response, next) => {
     next(exception);
   }
 })
-
-//TODO confirm cached login info from front-end
 
 module.exports = loginRouter;

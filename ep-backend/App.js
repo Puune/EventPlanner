@@ -1,3 +1,10 @@
+/**
+ * This is the Event-Planner back-end Application
+ * @module App
+ * @file App.js
+ * @author Panu Lindqvist
+ */
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -17,6 +24,10 @@ if(process.env.NODE_ENV === 'production'){
   app.use(express.static('build'));
 }
 
+/**
+ * This function initializes connection to mongoose database
+ * @function conn
+ */
 async function conn() {
   logger.info(`Connecting to ${config.MONGODB_URI}`);
   try{

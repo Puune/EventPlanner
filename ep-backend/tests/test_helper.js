@@ -1,3 +1,7 @@
+/**
+ * @module test_helper
+ */
+
 const secTool = require('../utils/securityTool');
 
 const createInitUsers = async () => {

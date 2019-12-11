@@ -1,3 +1,7 @@
+/**
+ * @module index
+*/
+
 require('dotenv').config();
 const config = require('./utils/config');
 const http = require('http');

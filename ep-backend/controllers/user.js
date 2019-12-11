@@ -1,8 +1,20 @@
+/**
+ * This module handles CRUD of users.
+ * @module controller.user
+*/
+
 const userRouter = require('express').Router();
 const User = require('../models/user');
 const securityTool = require('../utils/securityTool');
 
-//get all
+/**
+ * user GET method. Returns list of all users. Only public information is returned.
+ * @function get
+ * @param '/' Endpart of url
+ * @param request Param that contains html request
+ * @param response Param to which html response is projected
+ * @param next Param that allows the use of middleware
+ */
 userRouter.get('/', async(request, response, next) => {
   try{
     const results = await User.find({});
@@ -13,9 +25,15 @@ userRouter.get('/', async(request, response, next) => {
   }
 })
 
-//get one
 
-//post
+/**
+ * user CREATE method. Create a new user.
+ * @function post
+ * @param '/' Endpart of url
+ * @param request Param that contains html request
+ * @param response Param to which html response is projected
+ * @param next Param that allows the use of middleware
+ */
 userRouter.post('/', async(request, response, next) => {
   try{
     const body = request.body;

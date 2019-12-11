@@ -1,3 +1,8 @@
+/**
+ * This module will initialize environment variables
+ * @module util.config
+ */
+
 let MONGODB_URI;
 if(process.env.NODE_ENV === 'test'){
   MONGODB_URI = process.env.MONGODB_URI_TEST;
