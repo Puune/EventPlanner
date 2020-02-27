@@ -1,4 +1,5 @@
-This is Event Planner, created by Panu Lindqvist.
+This is Event Planner, created by Panu Lindqvist. See it live! 
+https://safe-chamber-60092.herokuapp.com/ 
 
 Description of my REST api:
 
